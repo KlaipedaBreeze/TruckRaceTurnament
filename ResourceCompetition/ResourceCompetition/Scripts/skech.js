@@ -1,5 +1,5 @@
 ﻿function setup() {
-    createCanvas(720, 400);
+    createCanvas(1205, 805);
     getMaze();
 }
 
@@ -23,11 +23,12 @@ function draw() {
         x2 = item.ToStop.CordX * cellSize + (wallSize / 2) + (cellSize / 2);
         y2 = item.ToStop.CordY * cellSize + (wallSize / 2) + (cellSize / 2);
 
-        strokeWeight(20);
+        strokeWeight(cellSize/2);
         stroke('white');
         
         line(x1, y1, x2, y2);
     });
+
 
 }
 

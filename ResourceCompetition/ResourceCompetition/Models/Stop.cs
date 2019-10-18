@@ -22,6 +22,7 @@ namespace ResourceCompetition.Models
         public int Id { get; set; }
         public int CordX { get; set; }
         public int CordY { get; set; }
+        public bool IsHidden { get; set; }
 
     }
 

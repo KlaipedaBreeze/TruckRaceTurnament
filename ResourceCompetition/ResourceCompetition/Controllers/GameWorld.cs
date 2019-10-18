@@ -20,8 +20,10 @@ namespace ResourceCompetition.Controllers
         {
             var maze = new Maze().GenerateMaze();
             //var cons = maze.RoadsList.Select(x => new MazeDTO(x.FromStop.Id, x.ToStop.Id, x.Weight));
-            var cons = maze.RoadsList.ToList();
-            return Ok(maze);
+            var cons = new MazeDTO();
+            cons.StopsList = maze.StopsList.Where(x => !x.IsHidden).ToList();
+            cons.RoadsList = maze.RoadsList.Where(x => !x.FromStop.IsHidden).ToList();
+            return Ok(cons);
         }
 
     }
