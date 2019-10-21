@@ -1,10 +1,10 @@
-﻿using ResourceCompetition.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using ResourceCompetition.Models;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ResourceCompetition.Models.ViewModels;
 
 namespace ResourceCompetition.Controllers
 {
@@ -15,12 +15,12 @@ namespace ResourceCompetition.Controllers
         {
             var truck = Game.Trucks.SingleOrDefault(x => x.Token == token);
             if (truck == null)
-            {                
+            {
                 return Request.CreateResponse(HttpStatusCode.NotFound, new HttpError("No valid truck"));
             }
 
             //check if stops is interconnected 
-            if (!Game.Maze.RoadsList.Exists(x=>x.FromStop.Id == truck.Location.Id && x.ToStop.Id == toStopId))
+            if (!Game.Maze.RoadsList.Exists(x => x.FromStop.Id == truck.Location.Id && x.ToStop.Id == toStopId))
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, new HttpError("No road"));
             }
@@ -33,11 +33,43 @@ namespace ResourceCompetition.Controllers
         [HttpGet]
         public HttpResponseMessage GetState(string token)
         {
+            var truck = Game.Trucks.SingleOrDefault(x => x.Token == token);
+            if (truck == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, new HttpError("No valid truck"));
+            }
 
-            return Request.CreateResponse(HttpStatusCode.OK, "Success");
+            var state = new TruckStateDTO()
+            {
+                CurrentStopId = truck.Location.Id,
+                InterconnectionRoads = Game.Maze.RoadsList.Where(x=>x.FromStop.Id == truck.Location.Id)
+                    .Select(s=> new RoadDTO()
+                    {
+                        FromStopId = truck.Location.Id,
+                        ToStopId = s.ToStop.Id,
+                        Weight = s.Weight
+                    })
+                    .ToList(),
+                Mines = truck.Mines.Select(c=> new MinesDTO()
+                {
+                    Id = c.Id,
+                    ResourcesLeft = c.Resources.Select(d=> new ResourceDTO()
+                    {
+                        Id = d.Id,
+                        Weight = d.Weight,
+                        Value = d.Value,
+                        Type = d.Type.ToString()
+                    }).ToList(),
+                    Distance = Math.Sqrt(Math.Pow(c.Location.CordX - truck.Location.CordX, 2) + Math.Pow(c.Location.CordY - truck.Location.CordY, 2))
+                }).ToList(),
+                //UnhiddenMazeRoads = Game.Maze.RoadsList.
+            };
+
+
+            return Request.CreateResponse(HttpStatusCode.OK, state);
         }
 
 
 
-        }
+    }
 }

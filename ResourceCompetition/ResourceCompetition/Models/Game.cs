@@ -46,7 +46,7 @@ namespace ResourceCompetition.Models
                     );
             }
 
-
+            Mine.Reset();
             foreach (var truck in Trucks)
             {
                 foreach (var minelocation in Maze.MineLocations)

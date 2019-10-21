@@ -150,6 +150,10 @@
     <Compile Include="Models\Stop.cs" />
     <Compile Include="Models\Truck.cs" />
     <Compile Include="Models\ViewModels\MazeDTO.cs" />
+    <Compile Include="Models\ViewModels\MinesDTO.cs" />
+    <Compile Include="Models\ViewModels\ResourceDTO.cs" />
+    <Compile Include="Models\ViewModels\RoadDTO.cs" />
+    <Compile Include="Models\ViewModels\TruckStateDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
