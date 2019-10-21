@@ -11,6 +11,8 @@ namespace ResourceCompetition.Models.ViewModels
 
         public List<Stop> StopsList { get; set; } = new List<Stop>();
         public List<Road> RoadsList { get; set; } = new List<Road>();
+        public List<Stop> MineList { get; set; } = new List<Stop>();
+        public Stop StartStop { get; set; }
 
     }
 }

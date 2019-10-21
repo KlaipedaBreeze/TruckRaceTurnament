@@ -9,13 +9,11 @@ namespace ResourceCompetition.Models
     {
         public List<Stop> StopsList { get; set; } = new List<Stop>();
         public List<Road> RoadsList { get; set; } = new List<Road>();
+        public List<Stop> MineLocations { get; set; } = new List<Stop>();
+        public Stop StartStop { get; set; }
 
         public Maze GenerateMaze(int with = 30, int height = 20)
         {
-            //Rectagle size of maze
-            //int with = 30;
-            //int height = 20;
-
             //reset ID of stop
             Stop.Reset();
 
@@ -29,44 +27,15 @@ namespace ResourceCompetition.Models
                         CordY = j,
                         CordX = i,
                         Name = $"Stop-{i}-{j}",
-                        IsHidden = i > ((with/6) *6)
+                        IsHidden = i > (with * 0.5)
                     };
                     StopsList.Add(stop);
                 }
             }
-
-
-            //Creating connection roads between neighbor stops
-            //bidirectional connection
-            //var tmpList = new List<Stop>(StopsList);
-            //foreach (var fromStop in StopsList)
-            //{
-            //    tmpList.Remove(fromStop);
-            //    var neighbors = tmpList.Where(x => 
-            //        Math.Sqrt(Math.Pow(fromStop.CordX - x.CordX, 2) + Math.Pow(fromStop.CordY - x.CordY, 2))
-            //        <= 1);
-
-            //    foreach (var toStop in neighbors)
-            //    {
-            //        var dir1 = new Road()
-            //        {
-            //            FromStop = fromStop,
-            //            ToStop = toStop,
-            //            Weight = 1
-            //        };
-            //        var dir2 = new Road()
-            //        {
-            //            FromStop = toStop,
-            //            ToStop = fromStop,
-            //            Weight = 1
-            //        };
-            //        RoadsList.Add(dir1);
-            //        RoadsList.Add(dir2);
-            //    }
-
-            //}
+            StartStop = StopsList[0];
 
             //Generating real maze
+            #region
             var unvisitedStops = new List<Stop>(StopsList);
 
             //get start Stop
@@ -99,7 +68,7 @@ namespace ResourceCompetition.Models
                         && !RoadsList.Any(s => s.ToStop.Id == current.Id && s.FromStop.Id == x.Id)
                         ).ToList();
 
-                    if (lastneighbors.Any() && (lastneighbors.Count() > 2 || rnd.Next(101) < 20))
+                    if (lastneighbors.Any() && (lastneighbors.Count() > 2 || rnd.Next(101) < 30))
                     {
                         var randStop2 = rnd.Next(lastneighbors.Count());
                         InterConnectStops(current, lastneighbors[randStop2]);
@@ -115,6 +84,13 @@ namespace ResourceCompetition.Models
                 myStack.Push(current);
                 current = nextStop;
                 unvisitedStops.Remove(current);
+            }
+            #endregion
+
+            //genarating mines location
+            for (int i = 0; i < 4; i++)
+            {
+                MineLocations.Add(StopsList[rnd.Next(StopsList.Count-10*i)+10*i]);
             }
 
             return this;
