@@ -62,7 +62,12 @@ namespace ResourceCompetition.Controllers
                     }).ToList(),
                     Distance = Math.Sqrt(Math.Pow(c.Location.CordX - truck.Location.CordX, 2) + Math.Pow(c.Location.CordY - truck.Location.CordY, 2))
                 }).ToList(),
-                //UnhiddenMazeRoads = Game.Maze.RoadsList.
+                UnhiddenMazeRoads = Game.Maze.RoadsList.Select(v=> new RoadDTO()
+                {
+                    FromStopId = v.FromStop.Id,
+                    ToStopId = v.ToStop.Id,
+                    Weight = v.Weight
+                }).ToList()
             };
 
 
