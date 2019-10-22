@@ -4,7 +4,6 @@ namespace ResourceCompetition.Models
 {
     public class Truck
     {
-        private int _maxWeight = 20;
         public Truck()
         {
             if (AvailableColors.Count > 0)
@@ -17,17 +16,20 @@ namespace ResourceCompetition.Models
                 Color = "blue";
             }
         }
-        
+
+        public int MaxWeight { get; set; } = 20;
         public int Id { get; set; }
         public string Token { get; set; }
         public Stop Location { get; set; }
         public string Color { get; set; }
         public List<Mine> Mines { get; set; } = new List<Mine>();
-        public List<Resource> Loaded { get; set; } = new List<Resource>();
+        public List<Resource> Cargo { get; set; } = new List<Resource>();
+        public int Fuel { get; set; }
+        public int Score { get; set; } = 0;
 
         private static List<string> Colors = new List<string>()
         {
-            "red","green", "Blue", "LightSalmon", "Crimson", "DeepSkyBlue", "GreenYellow"
+            "red","green", "Blue", "LightSalmon", "Crimson", "DeepSkyBlue", "GreenYellow", "Pink", "Olive", "DarkCyan", "LightSlateGray"
         };
 
         private static List<string> AvailableColors = new List<string>(Colors);
@@ -36,6 +38,7 @@ namespace ResourceCompetition.Models
         {
             AvailableColors = new List<string>(Colors);
         }
+
 
     }
 }

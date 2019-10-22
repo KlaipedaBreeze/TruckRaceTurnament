@@ -11,7 +11,9 @@ namespace ResourceCompetition.Models
         public List<Road> RoadsList { get; set; } = new List<Road>();
         public List<Stop> MineLocations { get; set; } = new List<Stop>();
         public Stop StartStop { get; set; }
+        public int intenconectionChance { get; set; } = 25;
 
+        private Random _rnd = new Random();
         public Maze GenerateMaze(int with = 30, int height = 20)
         {
             //reset ID of stop
@@ -27,7 +29,7 @@ namespace ResourceCompetition.Models
                         CordY = j,
                         CordX = i,
                         Name = $"Stop-{i}-{j}",
-                        IsHidden = i > (with * 0.5)
+                        IsHidden = i > (with * 0.4)
                     };
                     StopsList.Add(stop);
                 }
@@ -39,7 +41,7 @@ namespace ResourceCompetition.Models
             var unvisitedStops = new List<Stop>(StopsList);
 
             //get start Stop
-            var rnd = new Random();
+            
             Stack myStack = new Stack();
             var current = unvisitedStops.SingleOrDefault(x => x.CordX == 0 && x.CordY == 0);
             if (current is null)
@@ -68,9 +70,9 @@ namespace ResourceCompetition.Models
                         && !RoadsList.Any(s => s.ToStop.Id == current.Id && s.FromStop.Id == x.Id)
                         ).ToList();
 
-                    if (lastneighbors.Any() && (lastneighbors.Count() > 2 || rnd.Next(101) < 30))
+                    if (lastneighbors.Any() && (lastneighbors.Count() > 2 || _rnd.Next(101) < intenconectionChance))
                     {
-                        var randStop2 = rnd.Next(lastneighbors.Count());
+                        var randStop2 = _rnd.Next(lastneighbors.Count());
                         InterConnectStops(current, lastneighbors[randStop2]);
                     }
                     #endregion
@@ -78,7 +80,7 @@ namespace ResourceCompetition.Models
                     current = (Stop)myStack.Pop();
                     continue;
                 }
-                var randStop = rnd.Next(neighbors.Count());
+                var randStop = _rnd.Next(neighbors.Count());
                 var nextStop = neighbors[randStop];
                 InterConnectStops(current, nextStop);
                 myStack.Push(current);
@@ -90,7 +92,7 @@ namespace ResourceCompetition.Models
             //genarating mines location
             for (int i = 0; i < 4; i++)
             {
-                MineLocations.Add(StopsList[rnd.Next(StopsList.Count-10*i)+10*i]);
+                MineLocations.Add(StopsList[_rnd.Next(StopsList.Count-10*i)+10*i]);
             }
 
             return this;
@@ -102,7 +104,7 @@ namespace ResourceCompetition.Models
             {
                 FromStop = from,
                 ToStop = to,
-                Weight = 1
+                Weight = _rnd.Next(3)+1
             });
 
             if (twoWay)

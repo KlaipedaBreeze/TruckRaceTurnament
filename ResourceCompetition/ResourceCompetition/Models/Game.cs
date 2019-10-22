@@ -19,14 +19,15 @@ namespace ResourceCompetition.Models
             //creating trucks
             Trucks = new List<Truck>();
             Truck.Init();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 11; i++)
             {
                 Trucks.Add(
                     new Truck()
                     {
                         Id = i,
                         Token = i.ToString(),
-                        Location = Maze.StartStop
+                        Location = Maze.StartStop,
+                        Fuel = 15000
                     }
                     );
             }

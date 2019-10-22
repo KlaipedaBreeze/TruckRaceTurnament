@@ -38,6 +38,13 @@ function draw() {
     });
 
 
+    fill('lightblue');
+    noStroke();
+    rect(mazeGraph.StartStop.CordX * cellSize + wallSize, mazeGraph.StartStop.CordY * cellSize + wallSize,
+        cellSize - wallSize, cellSize - wallSize);
+
+
+
     if (trucks != null) {
         var count = 0;
         trucks.forEach(function (item) {

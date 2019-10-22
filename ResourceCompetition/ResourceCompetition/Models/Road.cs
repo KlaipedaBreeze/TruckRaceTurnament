@@ -9,6 +9,6 @@ namespace ResourceCompetition.Models
     {
         public Stop FromStop { get; set; }
         public Stop ToStop { get; set; }
-        public double Weight { get; set; }
+        public int Weight { get; set; }
     }
 }
