@@ -88,6 +88,7 @@ function getTrucks() {
             console.log("second success");
             console.log(data);
             trucks = data;
+            DisplayResults(trucks);
         })
         .fail(function () {
             console.log("error");
@@ -104,5 +105,38 @@ function initCall() {
     });
     getMaze();
 }
+
+function DisplayResults(trucks) {
+    if (trucks != null) {
+        var count = 0;
+        var output = "";
+        trucks.forEach(function (item) {
+
+            output += item.Id + " ";
+            output += item.Color + " "; 
+            output += item.Fuel + " ";
+            output += item.Score + " ";
+            output += item.Token + " ";
+            //output += item.Id;
+            //output += item.Id;
+
+            //Cargo: []
+            //Color: "red"
+            //Fuel: 15000
+            //Id: 0
+            //LastMove: "2019-10-22T14:29:56.4978829+03:00"
+            //Location: { Name: "Stop-0-0", Id: 1, CordX: 0, CordY: 0, IsHidden: false }
+            //MaxWeight: 20
+            //MinTimePeriod: "00:00:00.2500000"
+            //Mines: [{ Id: 1, Location: { Name: "Stop-19-1", Id: 50, CordX: 19, CordY: 1, IsHidden: true }, … }, …]
+            //Score: 0
+            //Token: "0"
+            output += "<br>";
+        });
+        $("#results").html(output);
+        //console.log("dd");
+    }
+}
+
 var myVar = setInterval(getMaze, 10000);
 var myVar = setInterval(getTrucks, 1000);
