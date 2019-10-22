@@ -19,6 +19,11 @@ namespace ResourceCompetition.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound, new HttpError("No valid truck"));
             }
 
+            if (DateTime.Now - truck.LastMove < truck.MinTimePeriod)
+            {
+                return Request.CreateResponse(HttpStatusCode.Forbidden, new HttpError($"Move was made less than:{truck.MinTimePeriod.Milliseconds} milliseconds"));
+            }
+
             //check if stops is interconnected
             var roadToGo =
                 Game.Maze.RoadsList.SingleOrDefault(x => x.FromStop.Id == truck.Location.Id && x.ToStop.Id == toStopId);

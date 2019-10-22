@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ResourceCompetition.Models
 {
@@ -26,6 +27,8 @@ namespace ResourceCompetition.Models
         public List<Resource> Cargo { get; set; } = new List<Resource>();
         public int Fuel { get; set; }
         public int Score { get; set; } = 0;
+        public DateTime LastMove { get; set; } = DateTime.Now;
+        public TimeSpan MinTimePeriod { get; set; } = TimeSpan.FromMilliseconds(250);
 
         private static List<string> Colors = new List<string>()
         {
